@@ -10,6 +10,12 @@
   </head>
 
   <body>
-    <%= yield %>
+  <body>
+    <div class="container">
+      <%= render 'layouts/flash_messages' %>
+
+      <%= yield %>
+    </div>
+  </body>
   </body>
 </html>
