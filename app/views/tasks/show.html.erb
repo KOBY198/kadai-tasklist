@@ -4,8 +4,23 @@
 <p>ステータス: <%= @tasks.status %></p>
 <p><%= @tasks.content %></p>
 
-<%= link_to '一覧に戻る', tasks_path %>
+<table class="table table-bordered">
+  <tr>
+    <th>ID</th>
+    <td><%= @tasks.id %></td>
+  </tr>
+  <tr>
+    <th>ステータス</th>
+    <td><%= @tasks.status%></td>
+  </tr>
+  <tr>
+    <th>タスク内容</th>
+    <td><%= @tasks.content %></td>
+  </tr>
+</table>
 
-<%= link_to 'このメッセージを編集する', edit_task_path(@tasks) %>
+<%= link_to '一覧に戻る', tasks_path, class: 'btn btn-secondary'  %>
 
-<%= link_to 'このメッセージを削除する', @tasks, method: :delete, data: { confirm: '本当に削除してよろしいですか？' } %>
+<%= link_to 'このタスクを編集する', edit_task_path(@tasks), class: 'btn btn-primary' %>
+
+<%= link_to 'このメッセージを削除する', @tasks, method: :delete, data: { confirm: '本当に削除してよろしいですか？' }, class: 'btn btn-danger' %>
