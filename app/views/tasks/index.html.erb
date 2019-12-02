@@ -1,27 +1,40 @@
 <h1>タスク一覧 produced by KOBY</h1>
 
-<% if @tasks.any? %>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>ステータス</th>
-        <th>タスク内容</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @tasks.each do |task| %>
+<% if logged_in? %>
+  <% if @tasks.any? %>
+    <table class="table table-striped">
+      <thead>
         <tr>
-          <td><%= link_to task.id, task %></td>
-          <td><%= task.status%></td>
-          <td><%= task.content %></td>
+          <th>ID</th>
+          <th>ステータス</th>
+          <th>タスク内容</th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
-  <div>
-    <%= paginate @tasks %>
-  </div>
-<% end %>
+      </thead>
+      <tbody>
+        <% @tasks.each do |task| %>
+          <tr>
+            <td><%= link_to task.id, task %></td>
+            <td><%= task.status%></td>
+            <td><%= task.content %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <div>
+      <%= paginate @tasks %>
+    </div>
+  <% end %>
 
 <%= link_to '新規タスクの投稿', new_task_path, class: "btn btn-primary" %>
+
+<% else %>
+  <div class="center jumbotron">
+    <div class="text-center">
+      <h1>Tasklistアプリへようこそ</h1>
+      <h2>未登録の方はこちらから</h2>
+      <%= link_to 'Sign up now!', signup_path, class: 'btn btn-lg btn-primary' %>
+      <h2>登録済みの方はログイン</h2>
+      <%= link_to 'Log-in', login_path, class: 'btn btn-lg btn-secondary' %>
+    </div>
+  </div>
+<% end %>

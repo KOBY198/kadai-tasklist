@@ -1,7 +1,6 @@
 <div class="row">
   <div class="col-6">
     <%= form_with(model: task, local: true) do |f| %>
-    
       <% if task.errors.any? %>
         <div id="error_explanation" class="alert alert-warning">
           <ul class="mb-0">
@@ -21,6 +20,8 @@
     <%= f.label :content, 'タスク' %>
     <%= f.text_field :content, class: 'form-control' %>
   </div>
+  
+  
     <%= f.submit '反映する', class: 'btn btn-primary' %>
   <% end %>
   </div>
