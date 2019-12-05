@@ -1,12 +1,14 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:show, :edit, :update, :destroy]
   before_action :require_user_logged_in
+  #before_action :set_task, only: [:show, :edit, :update, :destroy]
+  #correct_userで包括されているため不要↑
   before_action :correct_user, only: [:show, :edit, :update, :destroy]
 
   def index
     if logged_in?
       #@tasks = Task.order(id: :desc).page(params[:page]).per(5)
       #@tasks = Task.where(user_id: session[:user_id]).order(id: :desc).page(params[:page]).per(5)
+      #丁寧に書くと↑こうなる
       @user = User.find_by(id: session[:user_id])
       @tasks = @user.tasks.order(id: :desc).page(params[:page]).per(5)
     else
@@ -15,19 +17,19 @@ class TasksController < ApplicationController
   end
 
   def show
+      @task = Task.find(params[:id])
   end
 
   def new
-      @tasks = Task.new
+      @task = Task.new
   end
 
   def create
-      @tasks = current_user.tasks.build(task_params)
-      if @tasks.save
+      @task = current_user.tasks.build(task_params)
+      if @task.save
         flash[:success] = 'Task が正常に投稿されました'
         redirect_to tasks_url
       else
-#        @tasks = current_user.tasks.order(id: :desc).page(params[:page])
         flash.now[:danger] = 'Task が投稿されませんでした'
         render :new
       end
@@ -37,7 +39,7 @@ class TasksController < ApplicationController
   end
 
   def update
-    if @tasks.update(task_params)
+    if @task.update(task_params)
       flash[:success] = 'Task は正常に更新されました'
       redirect_to tasks_url
     else
@@ -47,18 +49,20 @@ class TasksController < ApplicationController
   end
 
   def destroy
-    @tasks.destroy
+    @task.destroy
 
     flash[:success] = 'Task は正常に削除されました'
     redirect_to tasks_url
   end    
 
-  def set_task
-    @tasks = Task.find(params[:id])
-  end
+  #def set_task
+  #  @tasks = Task.find(params[:id])
+  #end
+  #correct_userで包括されているので利用なし
   
   def task_params
     #params.require(:task).permit(:content, :status, :user)
+    #buildを使わない場合に、ストロングパラメータにuserを入れる必要あり。
     params.require(:task).permit(:content, :status)
   end
   
